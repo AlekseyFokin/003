@@ -15,15 +15,16 @@ let personalMovieDB={
 let i=0;
 let j=0;
 
-while (i<3)
+while (i<2)
 {
     let quation1=prompt("Один из последних просмотренных фильмов?","Robocop");
-    if ((quation1.length>0) && (quation1.length<51)) {
+    if ((quation1!=null)&&(quation1.length>0) && (quation1.length<51)) {
 
                                                         while (j<1)
                                                         {
                                                          let quation2=+prompt("На сколько оцените его?",0);
-                                                         if ((quation2>-1) && (quation1<11)) { j++; personalMovieDB.movies[quation1]=quation1;}
+                                                         if ((quation2!=null)&&(quation2>-1) && (quation2<11))
+                                                             { j++; personalMovieDB.movies[quation1]=quation2;}
                                                         }
                                                         j=0;
                                                         i++;
@@ -32,6 +33,11 @@ while (i<3)
 
     
 }
+
+if (personalMovieDB.count<10) {alert("Просмотрено довольно мало фильмов");}
+    else if ((personalMovieDB.count>=10)&&(personalMovieDB.count<=30)){alert("Вы классический зритель");}
+            else if ((personalMovieDB.count>30)) {alert("Вы киноман.");}
+                    else {alert("Произошла ошибка");}
 
 console.log(personalMovieDB);
 
