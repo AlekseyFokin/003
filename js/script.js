@@ -22,8 +22,8 @@ while (i<2)
 
                                                         while (j<1)
                                                         {
-                                                         let quation2=+prompt("На сколько оцените его?",0);
-                                                         if ((quation2!=null)&&(quation2>-1) && (quation2<11))
+                                                         let quation2=prompt("На сколько оцените его?",0);
+                                                         if ((quation2!=null)&&((+quation2)>-1) && ((+quation2)<11))
                                                              { j++; personalMovieDB.movies[quation1]=quation2;}
                                                         }
                                                         j=0;
@@ -33,6 +33,52 @@ while (i<2)
 
     
 }
+alert("второй вид цикла");
+//-----------------------------------------------------------------------------------------
+i=0;
+j=0;
+do
+{
+    let quation3=prompt("Один из последних просмотренных фильмов?","Rambo");
+    if ((quation3!=null)&&(quation3.length>0) && (quation3.length<51)) {
+
+                                                        do
+                                                        {
+                                                         let quation4=prompt("На сколько оцените его?",0);
+                                                         if ((quation4!=null)&&((+quation4)>-1) && ((+quation4)<11))
+                                                             { j++; personalMovieDB.movies[quation3]=quation4;}
+                                                        }while (j<1);
+                                                        j=0;
+                                                        i++;
+                                                        
+                                                    }
+
+    
+}
+while (i<2);
+//--------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------
+alert("третий вид цикла");
+i=0;
+j=0;
+for (i=0; i<2;i++)
+{
+    let quation3=prompt("Один из последних просмотренных фильмов?","Predator");
+    if ((quation3!=null)&&(quation3.length>0) && (quation3.length<51)) {
+
+                                                        for (j=0;j<2;j++)
+                                                        {
+                                                         let quation4=prompt("На сколько оцените его?",0);
+                                                         if ((quation4!=null)&&((+quation4)>-1) && ((+quation4)<11))
+                                                             { personalMovieDB.movies[quation3]=quation4;j=2;}
+                                                         else {j--;}    
+                                                        }
+                                                     }
+    else {i--;}
+}
+
+
+
 
 if (personalMovieDB.count<10) {alert("Просмотрено довольно мало фильмов");}
     else if ((personalMovieDB.count>=10)&&(personalMovieDB.count<=30)){alert("Вы классический зритель");}
