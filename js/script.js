@@ -1,95 +1,113 @@
 "use strict";
-let numberOfFilms;
-function start(){
-    while (
-          (numberOfFilms==null)||
-          (numberOfFilms=="")||
-          (isNaN(numberOfFilms))
-         )
-    {numberOfFilms=+prompt("Сколько фильмов Вы уже посмотрели?",0);}
-}
-start();
-console.log(`Пользователь посмотрел ${numberOfFilms} фильма(ов).`);
-
 //------------------------------------------------------------------------
 let personalMovieDB={
-   count:   numberOfFilms,
-   movies:  {},
-   actors:  {},
-   genres:  [],
-   privat:false
+    count:  0,
+    movies:  {},
+    actors:  {},
+    genres:  [],
+    privat:  false,
+
+    start:function(){
+        while (
+              (this.count==null)||
+              (this.count=="")||
+              (isNaN(this.count))
+             )
+        {this.count=+prompt("Сколько фильмов Вы уже посмотрели?",0);}
+    },
+    rememberMyFilms: function(){
+        let i=0;
+        let j=0;
+        while (i<2)
+        {
+            let quation1=prompt("Один из последних просмотренных фильмов?","Robocop");
+            if (
+                (quation1!=null)&&
+                (quation1.length>0) &&
+                (quation1.length<51)
+            ) 
+            {
+                while (j<1)
+                          {
+                            let quation2=prompt("На сколько оцените его?",0);
+                            if (
+                                (quation2!=null)&&
+                                ((+quation2)>-1) &&
+                                ((+quation2)<11)
+                               )
+                                { j++; personalMovieDB.movies[quation1]=quation2;}
+                          }
+                            j=0;
+                            i++;
+            }
+        }
+    },
+    detectPersonalLevel: function (){
+        if (personalMovieDB.count<10) {alert("Просмотрено довольно мало фильмов");}
+            else if ((personalMovieDB.count>=10)&&(personalMovieDB.count<=30)){alert("Вы классический зритель");}
+                    else if ((personalMovieDB.count>30)) {alert("Вы киноман.");}
+                            else {alert("Произошла ошибка");}
+        
+    },
+    showMyDB: function (){
+        if (!this.privat)
+        {console.log(this);}
+    },
+    toggleVisibleMyDB :function(){
+        this.privat=(!this.privat);},
+
+    writeYourGenres:function(){
+        for(let i=1;i<4; i++)
+                {
+                    let genre;
+                 while (
+                        (genre==null)||
+                        (genre=="")||
+                        (!isNaN(genre))
+                       )
+                        {genre=prompt(`Ваш любимый жанр под номером ${i}?`,"Porn").toLowerCase();}
+                        personalMovieDB.genres.push(genre);     
+                }
+                this.genres.forEach((item,i)=>{
+                    console.log(`Любимый жанр ${i+1} - это ${item}`);
+                });
+    }
+    
+     
+
+
 };
 //------------------------------------------------------------------------
 
-function rememberMyFilms()
-{
-    let i=0;
-    let j=0;
-    while (i<2)
-    {
-        let quation1=prompt("Один из последних просмотренных фильмов?","Robocop");
-        if (
-            (quation1!=null)&&
-            (quation1.length>0) &&
-            (quation1.length<51)
-        ) 
-        {
-            while (j<1)
-                      {
-                        let quation2=prompt("На сколько оцените его?",0);
-                        if (
-                            (quation2!=null)&&
-                            ((+quation2)>-1) &&
-                            ((+quation2)<11)
-                           )
-                            { j++; personalMovieDB.movies[quation1]=quation2;}
-                      }
-                        j=0;
-                        i++;
-        }
-    }
-}
-rememberMyFilms();
+personalMovieDB.start();
+console.log(`Пользователь посмотрел ${personalMovieDB.count} фильма(ов).`);
 
-function detectPersonalLevel()
-{
-if (personalMovieDB.count<10) {alert("Просмотрено довольно мало фильмов");}
-    else if ((personalMovieDB.count>=10)&&(personalMovieDB.count<=30)){alert("Вы классический зритель");}
-            else if ((personalMovieDB.count>30)) {alert("Вы киноман.");}
-                    else {alert("Произошла ошибка");}
+personalMovieDB.rememberMyFilms();
+personalMovieDB.detectPersonalLevel();
+personalMovieDB.writeYourGenres();
 
-}
-detectPersonalLevel();
+console.log("Показываю первый раз");
+personalMovieDB.showMyDB();
 
 
-
-function showMyDB(hidden)
-{
-    if (!hidden)
-    {console.log(personalMovieDB);}
-}
+personalMovieDB.toggleVisibleMyDB();
+console.log("----------------------");
+personalMovieDB.showMyDB();
 
 
-function  writeYourGenres()
-{
-    for(let i=1;i<4; i++)
-    {
-     let genre;
-     while (
-            (genre==null)||
-            (genre=="")||
-            (!isNaN(genre))
-           )
-           {genre=prompt(`Ваш любимый жанр под номером ${i}?`,"Porn");}
-           personalMovieDB.genres.push(genre);     
-    }
-    
+/* Задание на урок:
 
-}
+1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
+перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
+Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
 
-writeYourGenres();
+2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
+переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
 
-showMyDB(personalMovieDB.privat);
+3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
+Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
+при помощи метода forEach вывести в консоль сообщения в таком виде:
+"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
 /* Задание на урок:
 
 1) Первую часть задания повторить по уроку
